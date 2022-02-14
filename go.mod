@@ -1,3 +1,3 @@
-module github.com/rpirsc13/lumberjack/v2
+module github.com/rpirsc13/lumberjack
 
 go 1.17
