@@ -10,9 +10,6 @@ import (
 	"path/filepath"
 	"testing"
 	"time"
-
-	"github.com/BurntSushi/toml"
-	"gopkg.in/yaml.v2"
 )
 
 // !!!NOTE!!!
@@ -752,55 +749,6 @@ func TestJson(t *testing.T) {
 	equals(true, l.Compress, t)
 	equals("1:2.3", l.TimeFormat, t)
 	equals("bar", l.BackupDir, t)
-}
-
-func TestYaml(t *testing.T) {
-	data := []byte(`
-filename: foo
-maxsize: 5
-maxage: 10
-maxbackups: 3
-localtime: true
-compress: true
-timeformat: 1:2.3
-backupdir: bar`[1:])
-
-	l := Logger{}
-	err := yaml.Unmarshal(data, &l)
-	isNil(err, t)
-	equals("foo", l.Filename, t)
-	equals(5, l.MaxSize, t)
-	equals(10, l.MaxAge, t)
-	equals(3, l.MaxBackups, t)
-	equals(true, l.LocalTime, t)
-	equals(true, l.Compress, t)
-	equals("1:2.3", l.TimeFormat, t)
-	equals("bar", l.BackupDir, t)
-}
-
-func TestToml(t *testing.T) {
-	data := `
-filename = "foo"
-maxsize = 5
-maxage = 10
-maxbackups = 3
-localtime = true
-compress = true
-timeformat = "1:2.3"
-backupdir = "bar"`[1:]
-
-	l := Logger{}
-	md, err := toml.Decode(data, &l)
-	isNil(err, t)
-	equals("foo", l.Filename, t)
-	equals(5, l.MaxSize, t)
-	equals(10, l.MaxAge, t)
-	equals(3, l.MaxBackups, t)
-	equals(true, l.LocalTime, t)
-	equals(true, l.Compress, t)
-	equals("1:2.3", l.TimeFormat, t)
-	equals("bar", l.BackupDir, t)
-	equals(0, len(md.Undecoded()), t)
 }
 
 func forEachBackupTestSpec(t *testing.T, do func(t *testing.T, test backupTestSpec)) {
